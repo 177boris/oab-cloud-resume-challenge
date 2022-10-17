@@ -34,16 +34,17 @@ def lambda_handler(event, context):
     #     raise e
 
     return {
-        "statusCode": 200,
-        "body": json.dumps({
-            "message": "hello world",
-            # "location": ip.text.replace("\n", "")
-        }),
 
         # temporarily disable cors for testing purposes => to be fixed in future versions 
-        "headers": json.dumps({
+        "headers": {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "*",
-            "Access-Control-Allow-Headers": "*"
-        })
+            "Access-Control-Allow-Headers": "*",
+        }, 
+        "statusCode": 200,
+        "body": json.dumps({
+            "count": "1",
+            # "location": ip.text.replace("\n", "")
+        }),
+        
     }
