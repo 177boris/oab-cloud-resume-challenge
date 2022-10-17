@@ -39,4 +39,11 @@ def lambda_handler(event, context):
             "message": "hello world",
             # "location": ip.text.replace("\n", "")
         }),
+
+        # temporarily disable cors for testing purposes => to be fixed in future versions 
+        "headers": json.dumps({
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "*",
+            "Access-Control-Allow-Headers": "*"
+        })
     }

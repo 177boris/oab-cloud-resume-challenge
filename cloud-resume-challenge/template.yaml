@@ -10,6 +10,15 @@ Globals:
   Function:
     Timeout: 3
 
+
+# Try using parameters for 
+  # Domain name (CNAME), s3 domain name 
+  # HostedZoneId => route53 
+
+
+
+
+
 Resources:
 
   MyWebsite:
@@ -26,7 +35,7 @@ Resources:
       PolicyDocument:
         Id: MyBucketPolicy
         Version: 2012-10-17
-        Statement: 
+        Statement:
         - Sid: PublicReadForGetObjects
           Effect: Allow 
           Principal: "*"
@@ -47,8 +56,9 @@ Resources:
         - Name: oabcloudresumechallenge.com
           Type: A 
           AliasTarget:
-            HostedZoneId: Z2FDTNDATAQYW2 
+            HostedZoneId: Z2FDTNDATAQYW2  # default zone ID for cloudfront distributions 
             DNSName: !GetAtt MyDistribution.DomainName 
+
 
   MyCertificate: 
     Type: AWS::CertificateManager::Certificate
@@ -58,6 +68,18 @@ Resources:
        - DomainName: oabcloudresumechallenge.com
          HostedZoneId: Z0909871FLCNHCEHWTF1
       ValidationMethod: DNS  
+
+  # To be implemented in subsequent versions 
+  CloudFrontOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties: 
+      OriginAccessControlConfig: 
+        Description: "Default Origin Access Control"
+        Name: !Ref AWS::StackName
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always 
+        SigningProtocol: sigv4 
+      
 
   MyDistribution:
     Type: "AWS::CloudFront::Distribution"
@@ -86,14 +108,18 @@ Resources:
         DefaultRootObject: index.html 
 
 
-  HelloWorldFunction:
+  LambdaFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: python3.9
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoDBTable
       Architectures:
         - x86_64
+      
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -101,16 +127,32 @@ Resources:
             Path: /hello
             Method: get
 
+  DynamoDBTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:  
+      TableName: VisitorCount 
+      
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
-  HelloWorldApi:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
-    Description: "Hello World Lambda Function ARN"
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  
+  EndpointUrl:
+    Description: 'HTTP REST endpoint URL'
+    Value:  !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+
+  CloudfrontDomainName: 
+    Description: 'Cloudfront domain name'
+    Value: !GetAtt MyWebsite.DomainName
+
+  
+  # HelloWorldApi:
+  #  Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+  #  Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  #HelloWorldFunction:
+  #  Description: "Hello World Lambda Function ARN"
+  #  Value: !GetAtt HelloWorldFunction.Arn
+  # HelloWorldFunctionIamRole:
+  #   Description: "Implicit IAM Role created for Hello World function"
+  #  Value: !GetAtt HelloWorldFunctionRole.Arn
