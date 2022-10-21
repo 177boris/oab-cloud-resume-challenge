@@ -17,8 +17,6 @@ Globals:
 
 
 
-
-
 Resources:
 
   MyWebsite:
@@ -69,6 +67,7 @@ Resources:
          HostedZoneId: Z0909871FLCNHCEHWTF1
       ValidationMethod: DNS  
 
+
   # To be implemented in subsequent versions 
   CloudFrontOriginAccessControl:
     Type: AWS::CloudFront::OriginAccessControl
@@ -79,7 +78,6 @@ Resources:
         OriginAccessControlOriginType: s3
         SigningBehavior: always 
         SigningProtocol: sigv4 
-      
 
   MyDistribution:
     Type: "AWS::CloudFront::Distribution"
@@ -108,29 +106,55 @@ Resources:
         DefaultRootObject: index.html 
 
 
-  LambdaFunction:
+  GetFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: lambdas/
-      Handler: app.lambda_handler
+      Handler: get.lambda_handler
       Runtime: python3.9
       Policies:
         - DynamoDBCrudPolicy:
-            TableName: !Ref DynamoDBTable
+            TableName: !Ref MyDynamoDBTable
       Architectures:
         - x86_64
-      
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /get-count
-            Method: get
+            Path: /get
+            Method: GET
 
-  DynamoDBTable:
-    Type: AWS::Serverless::SimpleTable
+
+  PutFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: lambdas/
+      Handler: put.lambda_handler
+      Runtime: python3.9
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref MyDynamoDBTable
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /update
+            Method: GET
+
+
+  MyDynamoDBTable:
+    Type: AWS::DynamoDB::Table
     Properties:  
-      TableName: VisitorCount 
+      TableName: cloud-resume-challenge
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "ID"
+          AttributeType: "S"
+      KeySchema: 
+        - AttributeName: "ID"
+          KeyType: "HASH"
       
 
 Outputs:

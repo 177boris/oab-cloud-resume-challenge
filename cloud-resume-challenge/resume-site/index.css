@@ -17,6 +17,7 @@ body {
   --border-radius: 12px;
 
   --font-color:whitesmoke;
+  --font-color2: #0c1ccf;
 }
 
 
@@ -28,7 +29,7 @@ body {
 
 html{
   padding: 0; margin: 0;
-  background-color: black;
+  background-color: #222323;
   background-size: cover;
   z-index: -1;
 }
@@ -100,6 +101,13 @@ nav {
 
 .navigation-item {
   margin: var(--spacing-1);
+}
+
+#visitor{
+  font-size: 1.5em; 
+  font-weight: 700;
+  margin: var(--spacing-2);
+  color: var(--font-color2);
 }
 
 .portrait {
