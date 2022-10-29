@@ -1,29 +1,13 @@
 import json
-
+import logging 
+from logging import getLogger
+from decimal import Decimal
+import boto3 
 # import requests
 
 
+
 def lambda_handler(event, context):
-    """Sample pure Lambda function
-
-    Parameters
-    ----------
-    event: dict, required
-        API Gateway Lambda Proxy Input Format
-
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
-
-    context: object, required
-        Lambda Context runtime methods and attributes
-
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
-
-    Returns
-    ------
-    API Gateway Lambda Proxy Output Format: dict
-
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
-    """
 
     # try:
     #     ip = requests.get("http://checkip.amazonaws.com/")
@@ -33,6 +17,38 @@ def lambda_handler(event, context):
 
     #     raise e
 
+  
+    dynamodb = boto3.resource('dynamodb')
+
+    count_table = dynamodb.Table('cloud-resume-challenge') 
+
+    """
+    Updates the visitor count in the table by using an arithmetic
+    operation in the update expression. By specifying an arithmetic operation,
+    you can adjust the value in a single request, rather than first getting its
+    value and then setting its new value.
+
+    :return: The incremented count.
+    """
+
+
+    try:
+        response = count_table.update_item(
+        Key={"ID" : "VISITOR_COUNT"},
+        UpdateExpression="SET visitor_count = if_not_exists(visitor_count, :start) + :inc",
+        ExpressionAttributeValues={
+            ":inc": 1,
+            ":start": 0,
+        },
+        ReturnValues="UPDATED_NEW",
+        )
+    except Exception as e:
+        print("Error: " + e)
+
+        raise e
+
+
+
     return {
 
         # temporarily disable cors for testing purposes => to be fixed in future versions 
@@ -41,10 +57,5 @@ def lambda_handler(event, context):
             "Access-Control-Allow-Methods": "*",
             "Access-Control-Allow-Headers": "*",
         }, 
-        "statusCode": 200,
-        "body": json.dumps({
-            "count": "2",
-            # "location": ip.text.replace("\n", "")
-        }),
-        
+        "statusCode": 200
     }
