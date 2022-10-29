@@ -21,7 +21,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/b219f80601.css">
 
     <script>  
-      fetch("https://awrhkmiva7.execute-api.eu-west-2.amazonaws.com/Prod/get")
+      fetch("https://awrhkmiva7.execute-api.eu-west-2.amazonaws.com/Prod/update")
+        .then(() => fetch ("https://awrhkmiva7.execute-api.eu-west-2.amazonaws.com/Prod/get"))
         .then(response => response.json())
         .then((data) => {
           document.getElementById("visitorCount").innerHTML = data.count
@@ -96,8 +97,23 @@
       </section>
 
       <section id="projects">
-        <h2>Projects & Experience</h2>
+        <h2>*Projects & Experience</h2>
         <h3>(click for more)</h3>
+
+        <details class="project">
+          <summary class="project-title">
+            <h3> Botosoft Technologies LTD - Software Engineer  </h3>
+          </summary>
+          <img
+            src="./img/clouds-bg.jpg"
+            alt="Work Experience 3"
+            class="project-image"
+          />
+          <p class="project-description">
+              I've returned and I am extremely excited to be continuing my journey with Botosoft Technologies LTD.  
+          </p>
+        </details>
+
 
         <details class="project">
           <summary class="project-title">
@@ -105,7 +121,7 @@
           </summary>
           <img
             src="./img/clouds-bg.jpg"
-            alt="Work Experience 1"
+            alt="Work Experience 2"
             class="project-image"
           />
           <p class="project-description">
@@ -121,7 +137,7 @@
           </summary>
           <img
             src="./img/clouds-bg.jpg"
-            alt="Work Experience 2"
+            alt="Work Experience 1"
             class="project-image"
           />
           <p class="project-description">
@@ -130,23 +146,21 @@
           </p>
         </details>
 
-
         <details class="project">
           <summary class="project-title">
-            <h3> * Microservices & gRPC: To-do Web Application</h3>
+            <h3> * Cloud Resume Challenge </h3>
           </summary>
           <img
-            src="./img/code8.jpg"
-            alt="gRPC & Microservices: To-do Web Application"
+            src="./img/clouds-bg.jpg"
+            alt="Project 1 - CRC "
             class="project-image"
           />
           <p class="project-description">
-            A to-do web application that was designed with a microservice architecture and implements the gRPC communication protocol for interaction between the services. 
-            Written in Python and Golang. Tools/frameworks used include Python Flask, Protocol Buffers and gRPC. 
-            <br>
-            <a href="https://github.com/177boris/Microservice-gRPC"> - [Link to the Github Repository]</a>
+              This is my cloud resume challenge. Read more about it here [github] and here [medium]. 
+              Links to be added soon 
           </p>
         </details>
+        
         <details class="project">
           <summary class="project-title">
             <h3> * Personal Security Operations Centre (PSOC) - 3rd Year Project</h3>
@@ -165,45 +179,8 @@
           </p>
         </details>
        
-        <details class="project">
-          <summary class="project-title">
-            <h3> * A Simple Web Server</h3>
-          </summary>
-          <img
-            src="./img/nasa.png"
-            alt="Web_server"
-            class="project-image"
-          />
-          <p class="project-description">
-            Exploring how web servers communicate and handle requests.
-            I was inspired by the open-source book "500 lines or less", 
-            so I played around with creating multiple server instances from scratch using Python and Java. 
-            Imagine my shock when I realised how easily I could do this using AWS instances... 
-            <br><a href="https://github.com/177boris/Java_Web_Server"> - [Link to Java project on Github]</a>
-            <br><a href="https://github.com/177boris/A_Simple_Web_Server"> - [Link to Python project on Github]</a>
-            <br><a href="https://github.com/aosabook/500lines"> - [AOSABOOK]</a>
-          </p>
-        </details>
-
-        <details class="project">
-          <summary class="project-title">
-            <h3> * Load Balancer </h3>
-          </summary>
-          <img
-            src="./img/cube.png"
-            alt="load_balancer"
-            class="project-image"
-          />
-          <p class="project-description">
-            After doing research on and studying the importance of load balancers, 
-            I attempted to make a very simple one using a tutorial to apply 
-            what I had learned and practice using nginx.
-            <br><a href="https://github.com/177boris/load_balancing"> - [Link to project]</a>
-          </p>
-        </details>
       </section>
 
-     
     </main>
 
     

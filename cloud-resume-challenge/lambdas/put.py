@@ -1,7 +1,4 @@
 import json
-import logging 
-from logging import getLogger
-from decimal import Decimal
 import boto3 
 # import requests
 
@@ -9,15 +6,7 @@ import boto3
 
 def lambda_handler(event, context):
 
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
 
-    #     raise e
-
-  
     dynamodb = boto3.resource('dynamodb')
 
     count_table = dynamodb.Table('cloud-resume-challenge') 

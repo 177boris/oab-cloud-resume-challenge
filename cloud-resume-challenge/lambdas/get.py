@@ -1,29 +1,33 @@
 import json
+import boto3 
+from decimal import Decimal
 
 # import requests
 
+class DecimalEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if isinstance(obj, Decimal):
+      return str(obj)
+    return json.JSONEncoder.default(self, obj)
+
 
 def lambda_handler(event, context):
-    """Sample pure Lambda function
+    
 
-    Parameters
-    ----------
-    event: dict, required
-        API Gateway Lambda Proxy Input Format
+    dynamodb = boto3.resource('dynamodb')
+    count_table = dynamodb.Table('cloud-resume-challenge') 
 
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
 
-    context: object, required
-        Lambda Context runtime methods and attributes
+    try:
+        response = count_table.get_item(
+            Key={"ID" : "VISITOR_COUNT"},
+        )  
+    except Exception as e:
+        print("Error: " + e)
 
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
+        raise e 
 
-    Returns
-    ------
-    API Gateway Lambda Proxy Output Format: dict
-
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
-    """
+    count_value = response['Item']['visitor_count']
 
     # try:
     #     ip = requests.get("http://checkip.amazonaws.com/")
@@ -32,6 +36,7 @@ def lambda_handler(event, context):
     #     print(e)
 
     #     raise e
+    
 
     return {
 
@@ -43,8 +48,9 @@ def lambda_handler(event, context):
         }, 
         "statusCode": 200,
         "body": json.dumps({
-            "count": "1",
+            "count": json.dumps(count_value, cls=DecimalEncoder),
             # "location": ip.text.replace("\n", "")
         }),
         
     }
+    
