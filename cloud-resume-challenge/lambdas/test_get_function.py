@@ -46,9 +46,8 @@ class TestGetScript(unittest.TestCase):
         response = lambda_handler(event, context)
 
         self.assertEqual(response['statusCode'], 200)
-        self.assertEqual(response["body"], '{"count" : "\\"0\\""}')
+        self.assertEqual(response["body"], '{"count": "\\"0\\""}')
 
 
 if __name__ == '__main__':
     unittest.main() 
-    
