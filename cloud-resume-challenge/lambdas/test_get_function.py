@@ -1,4 +1,4 @@
-from get_function import lambda_handler
+from get_function import *
 
 import unittest 
 import boto3 
@@ -46,7 +46,7 @@ class TestGetScript(unittest.TestCase):
         response = lambda_handler(event, context)
 
         self.assertEqual(response['statusCode'], 200)
-        self.assertEqual(response['Item']['visitor_count'], '{"0"}')
+        self.assertEqual(response["body"]["count"], '{"0"}')
 
 
 if __name__ == '__main__':

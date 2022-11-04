@@ -1,4 +1,4 @@
-from put_function import lambda_handler
+from put_function import *
 
 import unittest 
 import boto3 
@@ -43,7 +43,7 @@ class TestPutScript(unittest.TestCase):
             response = lambda_handler(event, context)
     
             self.assertEqual(response['statusCode'], 200)
-            self.assertEqual(response['Item']['visitor_count'], '{"1"}')
+            self.assertEqual(response["body"]["count"], '{"1"}')
 
 
 if __name__ == '__main__':
