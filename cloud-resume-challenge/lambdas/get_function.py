@@ -48,7 +48,7 @@ def lambda_handler(event, context):
         }, 
         "statusCode": 200,
         "body": json.dumps({
-            "count": json.dumps(count_value, cls=DecimalEncoder),
+            "count" : json.dumps(count_value, cls=DecimalEncoder),
             # "location": ip.text.replace("\n", "")
         }),
         
