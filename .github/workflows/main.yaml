@@ -35,8 +35,7 @@ jobs:
           ls
           cd cloud-resume-challenge/lambdas/
           ls
-          python test_get_function.py
-          python test_put_function.py
+          python3 -m unittest discover
           cd ..
           ls
 
