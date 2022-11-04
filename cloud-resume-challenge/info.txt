@@ -1,3 +1,0 @@
-AWS SAM CLI version of my Cloud Resume Challenge. 
-
-The plan is to use Terraform to recreate all the resources when I'm done 
