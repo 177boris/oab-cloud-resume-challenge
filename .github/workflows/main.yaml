@@ -13,6 +13,8 @@ jobs:
     steps: 
       - uses: actions/checkout@v3 
       - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' 
       - name: Install dependencies 
         run: |
           python -m pip install --upgrade pip
@@ -32,6 +34,7 @@ jobs:
         run: |
           ls
           cd cloud-resume-challenge/lambdas/
+          ls
           python -m unittest discover
           cd ..
           ls
@@ -43,6 +46,8 @@ jobs:
       steps: 
       - uses: actions/checkout@v3 
       - uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' 
       - uses: aws-actions/setup-sam@v2
       - uses: aws-actions/configure-aws-credentials@v1
         with:

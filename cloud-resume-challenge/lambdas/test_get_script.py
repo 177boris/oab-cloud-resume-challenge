@@ -1,4 +1,4 @@
-from get import lambda_handler
+from lambdas.get import lambda_handler
 
 import unittest 
 import boto3 
