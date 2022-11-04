@@ -3,9 +3,9 @@ from put_function import lambda_handler
 import unittest 
 import boto3 
 import botocore 
-from moto import mock_dynamodb2 
+from moto import mock_dynamodb
 
-@mock_dynamodb2
+@mock_dynamodb
 class TestPutScript(unittest.TestCase):
     
         def setUp(self): 
