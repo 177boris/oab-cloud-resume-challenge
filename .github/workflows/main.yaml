@@ -73,6 +73,7 @@ jobs:
 
 
   deploy-site:
+    needs: build-infra
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
