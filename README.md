@@ -1,5 +1,5 @@
 # oab-CRC
-My AWS Cloud Resume Challenge
+My AWS Cloud Resume Challenge - v1
 
 Built using AWS SAM, Cloudformation (and a few other interesting AWS services) and Github Actions 
 
