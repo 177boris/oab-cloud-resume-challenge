@@ -1,6 +1,6 @@
 # AWS Cloud Resume Challenge 
 
-## Currently rebuilding with Terraform...
+## Rebuilt entire project with Terraform...
 
 Built using AWS SAM, Cloudformation (and a other interesting AWS services) and Github Actions 
 
